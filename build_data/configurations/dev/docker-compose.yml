@@ -11,6 +11,8 @@ services:
       - secrets.env
     ports:
       - $WEBSERVER_PORT:8000
+    volumes:
+      - '.:/app'
     networks:
       - default
     build:
