@@ -1,0 +1,35 @@
+version: "3.0"
+services:
+  webserver:
+    container_name: cat_hedgehog_webserver
+    image: webserver
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Minsk
+    env_file:
+      - .env
+      - secrets.env
+    ports:
+      - $WEBSERVER_PORT:8000
+    networks:
+      - default
+    build:
+      context: .
+      dockerfile: build_data/dockerfiles/webserver_dockerfile
+
+  db:
+    container_name: cat_postgres
+    image: postgres:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+      - secrets.env
+    ports:
+      - $DB_PORT:5432
+    volumes:
+      - $DB_VOLUME:/var/lib/postgresql/data2
+    networks:
+      - default
+
+networks:
+  default: null
